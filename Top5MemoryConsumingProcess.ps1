@@ -1,0 +1,3 @@
+$RAM= Get-WMIObject -computername vSacMhRc8-2 Win32_PhysicalMemory | Measure -Property capacity -Sum | %{$_.sum/1Mb} 
+
+get-wmiobject -computername vSacMhRc8-2  Win32_Process| Sort-Object -Property ws -Descending|select -first 10|Select processname, @{Name="Mem Usage(MB)";Expression={[math]::round($_.ws / 1mb)}},@{Name="Total Mem Usage(%)";Expression={[math]::round(($_.ws/1mb/$RAm)*100,2)}}, @{Name="ProcessID";Expression={[String]$_.ProcessID}},@{Name="UserID";Expression={$_.getowner().user}} |Format-table
